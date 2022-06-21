@@ -16,9 +16,21 @@ sh './mvnw clean test'
 }
 }
 }
+
+stage('Check Style') {
+steps {
+dir('simple-calculator') {
+sh './mvnw clean checkstyle:check'
+}
+}
+}
+
 }
 
 post {
+failure {
+sendFailureAlert('team@example.com')
+}
 always {
 sendNotification('finished', 'team@example.com')
 }
